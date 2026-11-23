@@ -133,7 +133,7 @@ const team: TeamMember[] = [
     },
     {
         number: '05',
-        name: 'Name to be added',
+        name: 'SEGUN FADEYI',
         credentials: 'Member, NIQS | Member, RICS',
         designation: 'Quantity Surveyor | Construction Cost Consultant',
         location: 'Abuja, Nigeria',
