@@ -1,0 +1,105 @@
+[
+  {
+    "name": "Navigate between the five internal pages",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": [
+      "separate home route",
+      "about route",
+      "services route",
+      "projects route",
+      "contact route",
+      "active navigation state",
+      "navigation remains fixed and visible while scrolling"
+    ],
+    "description": "Verifies each internal navigation item opens its own page view and can be revisited through the browser hash route, with navigation visible during scrolling.",
+    "steps": [
+      "Open Home",
+      "Select About Us",
+      "Select Our Services",
+      "Select Projects",
+      "Select Contact Us"
+    ],
+    "expected": "Each link opens its matching page content and the active navigation item reflects the current page."
+  },
+  {
+    "name": "Review service order and About page image reveal",
+    "viewport": "desktop",
+    "covers": [
+      "quantity surveying first",
+      "lender supervision service",
+      "arbitration service",
+      "5D BIM service",
+      "project management service",
+      "five service images are paired with the matching About page service headings",
+      "About page project delivery and managed value proof points",
+      "six differentiator cards with supplied company strengths",
+      "two-column desktop and responsive mobile card layout",
+      "cards remain within their parent while dragging and ease back on release",
+      "keyboard movement and reset for draggable cards"
+    ],
+    "description": "Verifies service order, the About page service images and the project delivery figures below them.",
+    "steps": [
+      "Open Our Services",
+      "Review the service cards from top to bottom",
+      "Open About Us",
+      "Scroll through the five-service reveal and compare each heading with its image",
+      "Continue below the service reveal and check the track-record figures and residential-sector statement",
+      "Continue below the track record to What makes us different",
+      "Confirm the six cards appear as two columns across three rows on desktop",
+      "Drag a card within its parent container, then release and watch it return",
+      "Focus a card, move it with arrow keys, then press Escape to reset it"
+    ],
+    "expected": "Quantity Surveying & Cost Management appears first, followed by Project Management, Lender Supervision & Development Advisory, Arbitration & Claims Resolution, and 5D BIM & 3D Model Quantification. On the About page, each service heading shows its matching uploaded image. After the service reveal, the track-record band before the new differentiators and team sections states that HOS Consult has delivered more than 500 projects across residential sectors and managed over $2 billion in project value, with 500+ and $2B+ figures displayed. After those metrics, the About page presents six differentiators: Client-Centric Approach, Unmatched Professionalism, Proven Track Record, Global Alliance, Local Strength, Versatility & Reach, and Integrity & Accountability. Desktop displays two columns and three rows; mobile stacks the cards. Titles and matching outlines use royal blue and dark orange. Cards stay within their parent while dragged, ease back after release, and support arrow-key movement with Escape to reset."
+  },
+  {
+    "name": "Open the international affiliation link separately",
+    "viewport": "desktop",
+    "covers": [
+      "international affiliation external destination",
+      "external link security attributes"
+    ],
+    "description": "Verifies the international affiliation navigation item opens the supplied RLB Africa destination in a separate tab.",
+    "steps": [
+      "Locate International Affiliation in the main navigation",
+      "Inspect the link destination and target"
+    ],
+    "expected": "The link targets https://www.rlb.com/africa/ and opens in a new tab."
+  },
+  {
+    "name": "Review the projects page placeholders on mobile",
+    "viewport": "mobile",
+    "covers": [
+      "projects dedicated page",
+      "six editable project placeholders",
+      "placeholder disclosure",
+      "mobile project layout"
+    ],
+    "description": "Verifies the Projects link opens a dedicated mobile page with six editable case study placeholders.",
+    "steps": [
+      "Open the mobile navigation",
+      "Select Projects",
+      "Review the project cards and placeholder notice"
+    ],
+    "expected": "The dedicated Projects page shows six cards and states that approved names, locations, scope and images are still needed."
+  },
+  {
+    "name": "Use the mobile navigation and contact page",
+    "viewport": "mobile",
+    "covers": [
+      "contact page route",
+      "consultation email path",
+      "mobile navigation",
+      "staggered mobile link entrance and reverse close",
+      "navigation remains fixed and visible while scrolling"
+    ],
+    "description": "Verifies the mobile menu opens and closes smoothly and the Contact Us route provides the supplied consultation email link.",
+    "steps": [
+      "Open the mobile navigation and observe the links enter from the right in sequence",
+      "Close the menu and observe the links leave in reverse sequence",
+      "Reopen the menu and select Contact Us",
+      "Inspect the email link"
+    ],
+    "expected": "The Contact Us page is shown and its consultation link uses a mailto destination addressed to hosconsult@gmail.com."
+  }
+]
