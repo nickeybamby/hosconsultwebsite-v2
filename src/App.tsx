@@ -11,31 +11,49 @@ const pages: { label: string; route: RouteName; href: string }[] = [
     { label: 'Contact Us', route: 'contact', href: '#/contact' },
 ];
 
-const services = [
+type Service = {
+    number: string;
+    title: string;
+    summary: string;
+    items: string[];
+    featured?: boolean;
+    details?: string;
+    clientBenefit?: string;
+};
+
+const services: Service[] = [
     {
         number: '01',
         title: 'Quantity Surveying & Cost Management',
         summary: 'Cost advice, measurement, tendering and cost control to help clients make informed decisions and keep value in view.',
-        items: ['Feasibility studies', 'Cost plans and estimates', 'Bills of quantities', 'Tender documentation', 'Cost management'],
+        details: 'At HOS Consult Limited, our Quantity Surveying & Cost Management services deliver unparalleled cost certainty for construction projects across Africa. With over 25 years of experience, we provide precise cost planning, from feasibility studies to final account settlement. Our RICS-accredited team prepares detailed Bills of Quantities (BoQ), conducts tender evaluations, and implements value engineering to optimize budgets without compromising quality. Using FIDIC and NIQS-compliant methodologies, we ensure financial clarity through lifecycle cost planning and contract administration. Whether it’s residential, commercial, or industrial projects like Banana Island Luxury Apartments, our expertise minimizes cost overruns and maximizes value. Our technology-driven tools enhance accuracy, offering clients transparent cost insights at every stage. We combine global standards with local expertise, ensuring your project stays on budget and on schedule. Trust HOS Consult for end-to-end cost management that drives project success.',
+        items: ['Preliminary and detailed cost estimation', 'Preparation of Bills of Quantities (BoQ)', 'Tender documentation and evaluation', 'Lifecycle cost planning and control', 'Contract administration and value engineering', 'Final account settlement'],
+        clientBenefit: 'Improved cost predictability, financial clarity, and assurance that resources are aligned with project goals.',
         featured: true,
     },
     {
         number: '02',
         title: 'Project Management',
         summary: 'Practical coordination from concept to completion, with clear oversight of project scope, decisions and progress.',
-        items: ['Project planning', 'Team coordination', 'Progress oversight'],
+        details: 'HOS Consult’s Project Management services ensure seamless execution from concept to completion. Our experienced project managers integrate design, procurement, and construction, delivering projects on time, within budget, and to the highest quality. We conduct feasibility assessments, develop procurement strategies, and provide rigorous construction supervision, ensuring stakeholder alignment and risk mitigation. With a proven track record on projects like Banana Island Luxury Apartments, our RICS-accredited team leverages advanced tools for progress reporting and quality control. We blend global best practices with Nigeria’s local expertise, coordinating consultants and contractors to minimize surprises. Our client-centric approach emphasizes clear communication and accountability, ensuring your vision is realized. From commercial to industrial developments, HOS Consult drives project success with precision and innovation. Let us lead your project to exceptional outcomes.',
+        items: ['Feasibility assessment and planning', 'Procurement and tendering strategies', 'Construction supervision and quality control', 'Progress reporting and stakeholder coordination', 'Risk management and mitigation planning'],
+        clientBenefit: 'Seamless execution from start to finish, with clearer communication, stronger accountability, and fewer surprises.',
     },
     {
         number: '03',
         title: 'Lender Supervision & Development Advisory',
         summary: 'Project monitoring and development advice to support informed decisions and responsible oversight of construction investment.',
-        items: ['Lender supervision', 'Development advisory', 'Progress monitoring'],
+        details: 'HOS Consult’s Lender Supervision & Development Advisory services safeguard financial investments in construction projects. As independent monitors for banks, mortgage institutions, and private investors, we ensure project progress aligns with financing terms and developer commitments. Our expert team conducts thorough reviews of financial and project documents, performs site inspections, and verifies disbursements to mitigate risks. We provide detailed progress reports and valuations of completed works, offering real-time insights into project performance. With experience managing over $2 billion in projects, including MainOne Data Centre, we deliver advisory support for investment structuring, ensuring cost certainty and compliance. Our RICS-accredited professionals leverage global best practices, tailoring solutions to Nigeria’s unique market. From feasibility to completion, we reduce financial exposure and enhance stakeholder confidence. Choose HOS Consult for meticulous oversight and strategic advice that protects your investment.',
+        items: ['Review of project and financial documents', 'Site progress inspections and reporting', 'Valuation of completed works', 'Disbursement verification and cost audits', 'Advisory support for investment structuring'],
+        clientBenefit: 'Enhanced confidence in project delivery, reduced exposure to financial risks, and real-time insights into progress and performance.',
     },
     {
         number: '04',
         title: 'Arbitration & Claims Resolution',
         summary: 'Construction cost and contract expertise to help assess claims, clarify issues and support fair resolution.',
-        items: ['Claims assessment', 'Cost analysis', 'Dispute support'],
+        details: 'Construction disputes can derail even the best-planned projects. HOS Consult’s Arbitration & Claims Resolution services provide clarity and equitable solutions to keep your project on track. Our expert team, led by professionals like Rhoda Warikubu, specializes in claims preparation, analysis, and forensic audits, ensuring contractual compliance and fair outcomes. We offer expert opinions and support arbitration processes, drawing on our 25+ years of experience in Nigeria’s construction industry. We combine global standards with local insights to resolve disputes efficiently, saving time and costs. From contractual disagreements to delay claims, our proactive approach minimizes disruptions and fosters collaboration. Whether you’re a developer or contractor, our NIQS and QSRBN-accredited team delivers tailored solutions for projects like luxury residential or industrial developments. Trust HOS Consult to navigate complex claims with precision and professionalism.',
+        items: ['Claims preparation and analysis', 'Expert opinion and forensic audit', 'Contractual compliance assessments', 'Support in dispute resolution and arbitration processes'],
+        clientBenefit: 'Time and cost savings through proactive issue resolution and expert dispute support.',
     },
     {
         number: '05',
@@ -123,17 +141,67 @@ function SectionIntro({ eyebrow, title, copy, light = false }: { eyebrow: string
 }
 
 function ServiceCards({ limit }: { limit?: number }) {
+    const [selectedService, setSelectedService] = useState<Service | null>(null);
+    const dialogRef = useRef<HTMLDialogElement>(null);
+
+    useEffect(() => {
+        if (selectedService && !dialogRef.current?.open) dialogRef.current?.showModal();
+        else if (!selectedService && dialogRef.current?.open) dialogRef.current.close();
+    }, [selectedService]);
+
+    function closeDialog() {
+        setSelectedService(null);
+    }
+
     return (
-        <div className="service-grid">
-            {services.slice(0, limit ?? services.length).map(service => (
-                <article className={'service-card' + (service.featured ? ' service-featured' : '')} key={service.number}>
-                    <div className="service-card-top"><span>{service.number}</span><ArrowUpRight size={18} /></div>
-                    <h3>{service.title}</h3>
-                    <p>{service.summary}</p>
-                    <ul>{service.items.map(item => <li key={item}>{item}</li>)}</ul>
-                </article>
-            ))}
-        </div>
+        <>
+            <div className="service-grid">
+                {services.slice(0, limit ?? services.length).map(service => (
+                    <button
+                        className={'service-card' + (service.featured ? ' service-featured' : '')}
+                        key={service.number}
+                        type="button"
+                        onClick={() => setSelectedService(service)}
+                        aria-haspopup="dialog"
+                        aria-label={'View details for ' + service.title}
+                    >
+                        <div className="service-card-top"><span>{service.number}</span><ArrowUpRight size={18} aria-hidden="true" /></div>
+                        <h3>{service.title}</h3>
+                        <p>{service.summary}</p>
+                        <ul>{service.items.map(item => <li key={item}>{item}</li>)}</ul>
+                    </button>
+                ))}
+            </div>
+            <dialog
+                className="service-modal"
+                ref={dialogRef}
+                aria-labelledby="service-modal-title"
+                onCancel={closeDialog}
+                onClose={closeDialog}
+                onClick={event => { if (event.target === event.currentTarget) closeDialog(); }}
+            >
+                {selectedService && (
+                    <div className="service-modal-content">
+                        <div className="service-modal-top">
+                            <p className="eyebrow"><span className="eyebrow-dot" />SERVICE / {selectedService.number}</p>
+                            <button className="service-modal-close" type="button" onClick={closeDialog} aria-label="Close service details"><X size={20} /></button>
+                        </div>
+                        <h2 id="service-modal-title">{selectedService.title}</h2>
+                        <p className="service-modal-copy">{selectedService.details ?? selectedService.summary}</p>
+                        <section className="service-modal-scope" aria-labelledby="service-modal-scope-title">
+                            <p className="eyebrow" id="service-modal-scope-title">Our expertise includes</p>
+                            <ul>{selectedService.items.map(item => <li key={item}>{item}</li>)}</ul>
+                        </section>
+                        {selectedService.clientBenefit && (
+                            <section className="service-modal-benefit" aria-labelledby="service-modal-benefit-title">
+                                <p className="eyebrow" id="service-modal-benefit-title">Client benefit</p>
+                                <p>{selectedService.clientBenefit}</p>
+                            </section>
+                        )}
+                    </div>
+                )}
+            </dialog>
+        </>
     );
 }
 
