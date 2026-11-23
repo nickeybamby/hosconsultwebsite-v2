@@ -2645,6 +2645,12 @@ main {
   font-weight: 700;
   letter-spacing: 1px;
 }
+.team-modal-location {
+  margin: -16px 0 24px;
+  color: #777c8a;
+  font-size: 11px;
+  line-height: 1.5;
+}
 .team-modal-summary-label {
   margin: 0 0 10px;
   color: var(--orange);

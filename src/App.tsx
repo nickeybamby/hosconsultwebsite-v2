@@ -84,6 +84,7 @@ type TeamMember = {
     name: string;
     designation: string;
     credentials?: string;
+    location?: string;
     article: string[];
     image?: string;
 };
@@ -99,8 +100,50 @@ const team: TeamMember[] = [
             'As Director and Principal Partner, he oversees all projects undertaken by the firm, providing strategic direction, quality assurance, and final sign-off across every stage of delivery. Recognized for authoritative leadership in cost consultancy, arbitration, and dispute resolution, and for building long-standing client relationships built on trust and technical excellence.',
         ],
     },
-    ...Array.from({ length: 7 }, (_, index) => ({
-        number: String(index + 2).padStart(2, '0'),
+    {
+        number: '02',
+        name: 'RHODA WARIKUBU',
+        credentials: 'MBA, MNIQS, QSRBN',
+        designation: 'Technical Director | Construction Cost Consultant',
+        article: [
+            'A seasoned Construction Cost Consultant and Quantity Surveyor with over 16 years of industry experience, including 10 years post-professional registration. Proven expertise in cost management, contract administration, procurement strategy, and project financial control across high-value commercial, residential, hospitality, mixed-use, and data centre developments.',
+            'Currently serving as Technical Director, leading multidisciplinary technical teams and delivering projects with minimal cost overruns. Recognized for strategic leadership, value engineering expertise, and strong stakeholder engagement.',
+        ],
+    },
+    {
+        number: '03',
+        name: 'LENIN A. ADEBALOGUN',
+        credentials: 'MNIQS, QSRBN, MPMI',
+        designation: 'Senior Procurement Specialist | Senior Quantity Surveyor',
+        article: [
+            'A Member of the Nigerian Institute of Quantity Surveyors with 15 years of experience in quantity surveying and procurement, including 9 years post-professional registration. Lenin strives to provide premium quality, excellent quantity surveying and procurement services through commitment, teamwork, integrity, and ethics.',
+            'Specialises in procurement strategy and contract administration, with experience spanning hotels, commercial, industrial, mixed-use, and residential developments.',
+        ],
+    },
+    {
+        number: '04',
+        name: 'JAMES O. OYENIYI',
+        credentials: 'MNIQS, QSRBN',
+        designation: 'Senior Quantity Surveyor | Construction Cost Consultant',
+        location: 'Lagos, Nigeria',
+        article: [
+            'A Member of the Nigerian Institute of Quantity Surveyors and Chartered Quantity Surveyor registered with the Quantity Surveyors Registration Board of Nigeria, with 15 years of experience in building consultancy, construction, and project management, including 7 years post-professional registration. Has been involved with a wide range of projects across commercial, industrial, residential, institutional, and mixed-use developments nationwide.',
+            'Brings strong technical grounding in cost management, procurement, and contract administration, with a track record of supporting the successful delivery of projects from feasibility through to final account.',
+        ],
+    },
+    {
+        number: '05',
+        name: 'Name to be added',
+        credentials: 'Member, NIQS | Member, RICS',
+        designation: 'Quantity Surveyor | Construction Cost Consultant',
+        location: 'Abuja, Nigeria',
+        article: [
+            'A Member of the Nigerian Institute of Quantity Surveyors and the Royal Institution of Chartered Surveyors, with 27 years of experience in building and infrastructure consultancy, contracting, and construction project management, including 15 years post-professional registration. Has been involved with a wide range of commercial, civil infrastructure, industrial, and residential projects within the country.',
+            'Brings deep expertise in contract procurement, cost administration, and claims management, together with recognized strengths in arbitration, dispute resolution, and expert witness work.',
+        ],
+    },
+    ...Array.from({ length: 3 }, (_, index) => ({
+        number: String(index + 6).padStart(2, '0'),
         name: 'Name to be added',
         designation: 'Designation to be added',
         article: ['A short professional profile will be added here once the approved biography is provided.'],
@@ -310,6 +353,7 @@ function TeamCards() {
                                 <p className="team-modal-designation">{selectedPerson.designation}</p>
                                 <h2 id="team-modal-title">{selectedPerson.name}</h2>
                                 {selectedPerson.credentials && <p className="team-modal-credentials">{selectedPerson.credentials}</p>}
+                                {selectedPerson.location && <p className="team-modal-location">{selectedPerson.location}</p>}
                                 <p className="team-modal-summary-label">Professional summary</p>
                                 {selectedPerson.article.map((paragraph, index) => <p className="team-modal-article" key={index}>{paragraph}</p>)}
                             </div>
