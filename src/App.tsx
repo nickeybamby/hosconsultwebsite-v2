@@ -79,9 +79,33 @@ const projects = Array.from({ length: 6 }, (_, index) => ({
     number: String(index + 1).padStart(2, '0'),
 }));
 
-const team = Array.from({ length: 8 }, (_, index) => ({
-    number: String(index + 1).padStart(2, '0'),
-}));
+type TeamMember = {
+    number: string;
+    name: string;
+    designation: string;
+    credentials?: string;
+    article: string[];
+    image?: string;
+};
+
+const team: TeamMember[] = [
+    {
+        number: '01',
+        name: 'HAKEEM O. SMITH',
+        credentials: 'FNIQS, FRICS, FNIM',
+        designation: 'Director | Principal Partner',
+        article: [
+            'A Fellow of the Nigerian Institute of Quantity Surveyors and Fellow of the Royal Institution of Chartered Surveyors, with over 36 years of experience in building consultancy, construction, and project management, including 34 years post-professional registration. Extensive track record delivering high-value developments across data centres, commercial, hospitality, industrial, and residential sectors, both within Nigeria and internationally.',
+            'As Director and Principal Partner, he oversees all projects undertaken by the firm, providing strategic direction, quality assurance, and final sign-off across every stage of delivery. Recognized for authoritative leadership in cost consultancy, arbitration, and dispute resolution, and for building long-standing client relationships built on trust and technical excellence.',
+        ],
+    },
+    ...Array.from({ length: 7 }, (_, index) => ({
+        number: String(index + 2).padStart(2, '0'),
+        name: 'Name to be added',
+        designation: 'Designation to be added',
+        article: ['A short professional profile will be added here once the approved biography is provided.'],
+    })),
+];
 
 const email = 'hosconsult@gmail.com';
 const consultationLink = 'mailto:' + email + '?subject=Consultation%20request%20-%20HOS%20Consult';
@@ -231,17 +255,69 @@ function ProjectCards() {
 }
 
 function TeamCards() {
+    const [selectedPerson, setSelectedPerson] = useState<TeamMember | null>(null);
+    const dialogRef = useRef<HTMLDialogElement>(null);
+
+    useEffect(() => {
+        if (selectedPerson && !dialogRef.current?.open) dialogRef.current?.showModal();
+        else if (!selectedPerson && dialogRef.current?.open) dialogRef.current.close();
+    }, [selectedPerson]);
+
+    function closeDialog() {
+        setSelectedPerson(null);
+    }
+
     return (
-        <div className="team-grid">
-            {team.map(person => (
-                <article className="team-card" key={person.number}>
-                    <div className={'team-portrait portrait-' + person.number} aria-hidden="true"><span>{person.number}</span><i /></div>
-                    <div className="team-meta"><span>TEAM MEMBER {person.number}</span><span>PROFILE TO BE ADDED</span></div>
-                    <h3>Name to be added</h3>
-                    <p>Role and credentials to be confirmed</p>
-                </article>
-            ))}
-        </div>
+        <>
+            <div className="team-grid">
+                {team.map(person => (
+                    <button
+                        className="team-card"
+                        key={person.number}
+                        type="button"
+                        onClick={() => setSelectedPerson(person)}
+                        aria-haspopup="dialog"
+                        aria-label={'View profile for ' + person.name + ', ' + person.designation}
+                    >
+                        <div className={'team-portrait portrait-' + person.number} aria-hidden="true"><span>{person.number}</span><i /></div>
+                        <div className="team-meta"><span>TEAM MEMBER {person.number}</span><span>VIEW PROFILE ↗</span></div>
+                        <h3>{person.name}</h3>
+                        <p>{person.designation}</p>
+                    </button>
+                ))}
+            </div>
+            <dialog
+                className="team-modal"
+                ref={dialogRef}
+                aria-labelledby="team-modal-title"
+                onCancel={closeDialog}
+                onClose={closeDialog}
+                onClick={event => { if (event.target === event.currentTarget) closeDialog(); }}
+            >
+                {selectedPerson && (
+                    <div className="team-modal-content">
+                        <div className="team-modal-top">
+                            <p className="eyebrow"><span className="eyebrow-dot" />HOS CONSULT / TEAM {selectedPerson.number}</p>
+                            <button className="team-modal-close" type="button" onClick={closeDialog} aria-label="Close team profile"><X size={20} /></button>
+                        </div>
+                        <div className="team-modal-layout">
+                            {selectedPerson.image ? (
+                                <img className="team-modal-portrait" src={selectedPerson.image} alt={selectedPerson.name} />
+                            ) : (
+                                <div className={'team-modal-portrait team-modal-placeholder portrait-' + selectedPerson.number} aria-hidden="true"><span>{selectedPerson.number}</span><i /></div>
+                            )}
+                            <div className="team-modal-copy">
+                                <p className="team-modal-designation">{selectedPerson.designation}</p>
+                                <h2 id="team-modal-title">{selectedPerson.name}</h2>
+                                {selectedPerson.credentials && <p className="team-modal-credentials">{selectedPerson.credentials}</p>}
+                                <p className="team-modal-summary-label">Professional summary</p>
+                                {selectedPerson.article.map((paragraph, index) => <p className="team-modal-article" key={index}>{paragraph}</p>)}
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </dialog>
+        </>
     );
 }
 
@@ -321,7 +397,7 @@ function HomePage() {
             <section className="team-section section-wrap section-pad" id="team">
                 <div className="team-heading">
                     <SectionIntro eyebrow="THE PEOPLE BEHIND THE WORK" title={<>Good advice starts<br />with <em>good people.</em></>} copy="Meet the professionals who bring experience, care and commercial focus to each appointment." />
-                    <p className="team-note">Team names, roles, biographies and portraits are placeholders for HOS Consult approval.</p>
+                    <p className="team-note">Select a profile to read more. Approved names, biographies and portraits can be added as they are supplied.</p>
                 </div>
                 <TeamCards />
             </section>
@@ -729,7 +805,7 @@ function AboutPage() {
             <AboutDifferentiators />
             <section className="team-section section-pad">
                 <div className="section-wrap">
-                    <div className="team-heading"><SectionIntro eyebrow="THE PEOPLE BEHIND THE WORK" title={<>Good advice starts<br />with <em>good people.</em></>} copy="A team profile section is ready for approved names, credentials and portraits." /><p className="team-note">Names, roles, biographies and portraits are placeholders for HOS Consult approval.</p></div>
+                    <div className="team-heading"><SectionIntro eyebrow="THE PEOPLE BEHIND THE WORK" title={<>Good advice starts<br />with <em>good people.</em></>} copy="Meet the professionals who bring experience, care and commercial focus to each appointment." /><p className="team-note">Select a profile to read more. Approved names, biographies and portraits can be added as they are supplied.</p></div>
                     <TeamCards />
                 </div>
             </section>
